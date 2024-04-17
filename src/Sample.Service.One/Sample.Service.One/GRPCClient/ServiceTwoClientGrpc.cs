@@ -16,7 +16,7 @@ public class ServiceTwoClientGrpc : IServiceTwoClientGrpc
             { "X-Apikey", "68e5fbda-9ec9-4858-97b2-4a8349764c63" } //just for test purpose
         };
     }
-    public async Task<responseModel> CreateShowTime(DummyCreationRequest request)
+    public async Task<singleResponseModel> CreateShowTime(DummyCreationRequest request)
     {
         return await _client.CreateDummyEntityAsync(request, _metadata);
     }

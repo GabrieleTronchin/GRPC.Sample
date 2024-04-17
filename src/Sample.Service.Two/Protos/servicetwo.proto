@@ -40,7 +40,7 @@ message singleResponseModel {
 
 message responseModel {
   bool success = 1;
-  repeated dummyEntityRequest items = 2
+  repeated dummyEntityRequest items = 2;
   google.protobuf.Any data  = 3;
   repeated apiException exceptions = 4;
 }

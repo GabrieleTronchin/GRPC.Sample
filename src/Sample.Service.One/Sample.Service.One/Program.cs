@@ -1,4 +1,5 @@
 using Sample.Service.One;
+using Sample.Service.One.GRPCClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,17 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapGet("/getdatafromservicetwo", () =>
+app.MapPost("/Create", async (IServiceTwoClientGrpc service) =>
 {
-    throw new NotImplementedException();
+   return await service.CreateShowTime(new ServiceTwoProto.DummyCreationRequest()
+    {
+        DummyEntity = new ServiceTwoProto.dummyEntityRequest()
+        {
+            Description = "test",
+            Name = "testName",
+            ReferenceDate = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.UtcNow)
+        }
+    }); ;
 })
 .WithName("GetDataFromServiceTwo")
 .WithOpenApi();

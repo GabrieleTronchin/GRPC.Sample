@@ -4,5 +4,5 @@ namespace Sample.Service.One.GRPCClient;
 
 public interface IServiceTwoClientGrpc
 {
-    Task<responseModel> CreateShowTime(DummyCreationRequest request);
+    Task<singleResponseModel> CreateShowTime(DummyCreationRequest request);
 }
