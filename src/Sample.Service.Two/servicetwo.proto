@@ -1,0 +1,36 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "ServiceTwoProto";
+
+package servicetwo;
+
+
+service ServiceTwoApi {
+  rpc CreateDummyEntity (DummyCreationRequest) returns (responseModel);
+}
+message dummyEntityRequest {
+  string name= 1;
+  string description= 2;
+  google.protobuf.Timestamp referenceDate= 3;
+}
+
+message DummyCreationRequest {
+   dummyEntityRequest dummyEntity = 1;
+   google.protobuf.Timestamp sessionDate = 2;
+}
+
+// Exception model
+message apiException {
+  string Message = 1;
+  int32 StatusCode = 2;
+}
+
+// Response model
+message responseModel {
+  bool success = 1;
+  string id= 2;
+  google.protobuf.Any data  = 3;
+  repeated apiException exceptions = 4;
+}
