@@ -20,11 +20,9 @@ public class ServiceTwoService(ILogger<ServiceTwoService> logger, IMemoryCache c
     /// <param name="request">Empty</param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<responseModel> RetrieveAllEntities(Empty request, ServerCallContext context) {
+    public override async Task<responseModel> GetEntities(Empty request, ServerCallContext context) {
         try
         {
-
-            
 
             return new responseModel() { Success = true, Id = "Test" };
         }

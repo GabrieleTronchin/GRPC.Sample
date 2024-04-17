@@ -8,7 +8,7 @@ package servicetwo;
 
 
 service ServiceTwoApi {
-  rpc RetrieveAllEntities (Empty) returns (responseModel);
+  rpc GetEntities (Empty) returns (responseModel);
   rpc CreateDummyEntity (DummyCreationRequest) returns (responseModel);
 }
 message dummyEntityRequest {
