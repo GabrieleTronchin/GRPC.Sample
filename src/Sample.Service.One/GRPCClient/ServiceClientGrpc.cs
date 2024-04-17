@@ -18,7 +18,8 @@ public class ServiceClientGrpc : IServiceClientGrpc
     }
     public async Task<operationCompleteModel> CreateShowTime(CreationRequest request)
     {
-        return await _client.Create(request, _metadata);
+        //return await _client.Create(request, new());
+        throw new NotImplementedException();    
     }
 
 }
