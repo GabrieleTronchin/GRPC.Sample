@@ -1,7 +1,7 @@
-﻿using Sample.Service.One.GRPCClient;
+﻿using Sample.GRPC.Client.API.GRPCClient;
 using ServiceTwoProto;
 
-namespace Sample.Service.One;
+namespace Sample.GRPC.Client.API;
 
 public static partial class ServicesExtensions
 {
@@ -23,7 +23,7 @@ public static partial class ServicesExtensions
         });
 
 
-        services.AddTransient<IServiceTwoClientGrpc, ServiceTwoClientGrpc>();
+        services.AddTransient<IServiceClientGrpc, ServiceClientGrpc>();
         return services;
     }
 }

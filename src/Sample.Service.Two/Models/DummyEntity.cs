@@ -1,4 +1,4 @@
-﻿namespace Sample.Service.Two.Models;
+﻿namespace Sample.GRPC.Server.API.Models;
 
 public class DummyEntity
 {

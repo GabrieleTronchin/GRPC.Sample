@@ -1,5 +1,5 @@
-using Sample.Service.One;
-using Sample.Service.One.GRPCClient;
+using Sample.GRPC.Client.API;
+using Sample.GRPC.Client.API.GRPCClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapPost("/Create", async (IServiceTwoClientGrpc service) =>
+app.MapPost("/Create", async (IServiceClientGrpc service) =>
 {
     return await service.CreateShowTime(new ServiceTwoProto.DummyCreationRequest()
     {

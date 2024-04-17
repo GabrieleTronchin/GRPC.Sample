@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sample.Service.Two.Models;
+using Sample.GRPC.Server.API.Models;
 
-namespace Sample.Service.Two.Persistence;
+namespace Sample.GRPC.Server.API.Persistence;
 
 
 

@@ -1,14 +1,14 @@
 ﻿using Grpc.Core;
 using ServiceTwoProto;
 
-namespace Sample.Service.One.GRPCClient;
+namespace Sample.GRPC.Client.API.GRPCClient;
 
-public class ServiceTwoClientGrpc : IServiceTwoClientGrpc
+public class ServiceClientGrpc : IServiceClientGrpc
 {
     private readonly ServiceTwoApi.ServiceTwoApiClient _client;
     private readonly Metadata _metadata;
 
-    public ServiceTwoClientGrpc(ServiceTwoApi.ServiceTwoApiClient client)
+    public ServiceClientGrpc(ServiceTwoApi.ServiceTwoApiClient client)
     {
         _client = client;
         _metadata = new Metadata

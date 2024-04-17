@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Sample.Service.Two.Persistence;
-using Sample.Service.Two.Protos;
+using Sample.GRPC.Server.API.Persistence;
+using Sample.GRPC.Server.API.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
 

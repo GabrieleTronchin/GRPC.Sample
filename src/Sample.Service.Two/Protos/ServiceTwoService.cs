@@ -1,10 +1,10 @@
 ﻿using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
+using Sample.GRPC.Server.API.Persistence;
 using Sample.Service.Two.Models;
-using Sample.Service.Two.Persistence;
 using ServiceTwoProto;
 
-namespace Sample.Service.Two.Protos;
+namespace Sample.GRPC.Server.API.Protos;
 
 /// <summary>
 /// Sample CRUD Service with GRPC
