@@ -1,6 +1,5 @@
 ﻿using Grpc.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Sample.Service.Two.Models;
 using Sample.Service.Two.Persistence;
 using ServiceTwoProto;
@@ -22,7 +21,8 @@ public class ServiceTwoService(ILogger<ServiceTwoService> logger, DummyContext d
     /// <param name="request">Empty</param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<responseModel> GetEntities(Empty request, ServerCallContext context) {
+    public override async Task<responseModel> GetEntities(Empty request, ServerCallContext context)
+    {
         try
         {
             var lst = await dbContext.SampleEntities.ToListAsync();
@@ -52,8 +52,9 @@ public class ServiceTwoService(ILogger<ServiceTwoService> logger, DummyContext d
             logger.LogDebug("New Request received on {grpcServiceName}", nameof(ServiceTwoService));
 
 
-            await dbContext.SampleEntities.AddAsync(new DummyEntity() {
-                Id=new Guid(),
+            await dbContext.SampleEntities.AddAsync(new DummyEntity()
+            {
+                Id = new Guid(),
                 Description = request.DummyEntity.Description,
                 Name = request.DummyEntity.Name,
                 ReferenceDate = request.DummyEntity.ReferenceDate.ToDateTime(),
