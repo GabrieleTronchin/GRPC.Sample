@@ -6,6 +6,10 @@ In this project, a sample implementation of gRPC communication has been realized
 
 2. **Sample.GRPC.Server.API**: This service functions as a gRPC server, facilitating CRUD operations. For testing purposes, an in-memory database has been employed.
 
+
+![Swaggers](assets/Swaggers.png)
+
+
 ## Technical Explanation
 
 ### gRPC
