@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Persistence;
 using Sample.GRPC.Server.API.Protos;
@@ -30,12 +31,21 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapGet("/Gets", async (DummyContext dbContext) =>
+app.MapGet("/Get", async (DummyContext dbContext) =>
 {
     return await dbContext.SampleEntities.ToListAsync();
 })
-.WithName("GetWeatherForecast")
+.WithName("Get")
 .WithOpenApi();
+
+app.MapGet("/GetSingle", async (DummyContext dbContext, [FromRoute] Guid payload) =>
+{
+    return await dbContext.SampleEntities.SingleAsync(x => x.Id == payload);
+})
+.WithName("GetSingle")
+.WithOpenApi();
+
+
 
 app.MapGrpcService<GrpcSampleService>();
 

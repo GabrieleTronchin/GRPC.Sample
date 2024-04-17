@@ -14,20 +14,13 @@ namespace Sample.GRPC.Server.API.Protos;
 public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext dbContext) : SampleServiceApi.SampleServiceApiBase
 {
 
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="request">Empty</param>
-    /// <param name="context"></param>
-    /// <returns></returns>
     public override async Task<responseEntitiesModel> Gets(Empty request, ServerCallContext context)
     {
         try
         {
             var lst = await dbContext.SampleEntities.ToListAsync();
 
-            return new responseEntitiesModel() { Success = true};
+            return new responseEntitiesModel() { Success = true };
         }
         catch (Exception ex)
         {
@@ -39,17 +32,11 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
     public override async Task<responseEntityModel> GetSingle(entityRequest request, ServerCallContext context)
     {
         try
         {
-            var lst = await dbContext.SampleEntities.ToListAsync();
+            var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Id));
 
             return new responseEntityModel() { Success = true };
         }
@@ -63,12 +50,6 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
     public override async Task<operationCompleteModel> Create(CreationRequest request, ServerCallContext context)
     {
         try
@@ -81,6 +62,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
                 Description = request.Item.Description,
                 Name = request.Item.Name,
                 ReferenceDate = request.Item.ReferenceDate.ToDateTime(),
+                LastTimeModified = DateTime.UtcNow
             };
 
             await dbContext.SampleEntities.AddAsync(entity);
@@ -101,35 +83,26 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
     public override async Task<operationCompleteModel> Update(UpdateRequest request, ServerCallContext context)
     {
         try
         {
             logger.LogDebug("New Request received on {grpcServiceName}", nameof(GrpcSampleService));
 
-            //await dbContext.SampleEntities.FirstOrDefault(x => x.Id == request.Item.Id);
+            var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Item.Id));
 
-            var entity = new DummyEntity()
-            {
-                Id = new Guid(),
-                Description = request.Item.Description,
-                Name = request.Item.Name,
-                ReferenceDate = request.Item.ReferenceDate.ToDateTime(),
-            };
+            obj.Name = request.Item.Name;
+            obj.Description = request.Item.Description;
+            obj.ReferenceDate = request.Item.ReferenceDate.ToDateTime();
+            obj.LastTimeModified = DateTime.UtcNow;
 
-            //await dbContext.SampleEntities.Update(entity);
+            dbContext.SampleEntities.Update(obj);
 
             await dbContext.SaveChangesAsync();
 
             logger.LogDebug("Request completed {grpcServiceName}", nameof(GrpcSampleService));
 
-            return new operationCompleteModel() { Success = true, Id = entity.Id.ToString() };
+            return new operationCompleteModel() { Success = true, Id = obj.Id.ToString() };
         }
         catch (Exception ex)
         {
@@ -141,19 +114,14 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="request"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
     public override async Task<responseModel> Delete(entityRequest request, ServerCallContext context)
     {
         try
         {
             logger.LogDebug("New Request received on {grpcServiceName}", nameof(GrpcSampleService));
+            var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Id));
 
-
+            dbContext.SampleEntities.Remove(obj);
             await dbContext.SaveChangesAsync();
 
             logger.LogDebug("Request completed {grpcServiceName}", nameof(GrpcSampleService));

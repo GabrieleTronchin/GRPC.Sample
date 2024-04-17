@@ -1,5 +1,9 @@
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Sample.GRPC.Client.API;
 using Sample.GRPC.Client.API.GRPCClient;
+using Sample.GRPC.Client.API.Mapster;
+using Sample.GRPC.Client.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSampleGRPCClient(builder.Configuration);
+builder.Services.AddMapster();
+
 
 var app = builder.Build();
 
@@ -20,20 +26,42 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-app.MapPost("/Create", async (IServiceClientGrpc service) =>
+app.MapGet("/Get", async (IServiceClientGrpc service) =>
 {
-    return await service.CreateShowTime(new ServiceTwoProto.DummyCreationRequest()
-    {
-        DummyEntity = new ServiceTwoProto.dummyEntityRequest()
-        {
-            Description = "test",
-            Name = "testName",
-            ReferenceDate = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTime(DateTime.UtcNow)
-        }
-    }); ;
+    return await service.Get();
 })
-.WithName("GetDataFromServiceTwo")
+.WithName("Get")
 .WithOpenApi();
+
+app.MapGet("/GetSingle", async (IServiceClientGrpc service, [FromRoute] Guid payload) =>
+{
+    return await service.GetSingle(payload);
+})
+.WithName("GetSingle")
+.WithOpenApi();
+
+app.MapPost("/Create", async (IServiceClientGrpc service, [FromBody] SampleEntityPost payload) =>
+{
+    return await service.Create(payload);
+})
+.WithName("Create")
+.WithOpenApi();
+
+app.MapPost("/Update", async (IServiceClientGrpc service, [FromBody] SampleEntityPut payload) =>
+{
+    return await service.Update(payload);
+})
+.WithName("Update")
+.WithOpenApi();
+
+
+app.MapDelete("/Delete", async (IServiceClientGrpc service, [FromRoute] Guid payload) =>
+{
+    await service.Delete(payload);
+})
+.WithName("Delete")
+.WithOpenApi();
+
+MapsterSettings.Configure();
 
 app.Run();

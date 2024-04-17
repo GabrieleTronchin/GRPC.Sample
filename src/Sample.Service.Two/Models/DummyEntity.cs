@@ -11,4 +11,7 @@ public class DummyEntity
 
     public DateTime ReferenceDate { get; set; }
 
+    public DateTime LastTimeModified { get; set; }
+
+
 }

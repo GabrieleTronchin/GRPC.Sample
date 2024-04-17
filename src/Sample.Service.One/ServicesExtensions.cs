@@ -11,7 +11,7 @@ public static partial class ServicesExtensions
         var endpoint = configuration.GetSection("SampleGRPC:Endpoint").Value ?? throw new MissingFieldException("SampleGRPC:Endpoint");
 
 
-        services.AddGrpcClient<SampleServiceApi.SampleServiceApiBase>((services, options) =>
+        services.AddGrpcClient<SampleServiceApi.SampleServiceApiClient>((services, options) =>
         {
             options.Address = new Uri(endpoint);
         }).ConfigureChannel(o =>
