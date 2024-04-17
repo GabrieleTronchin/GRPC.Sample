@@ -5,9 +5,9 @@ namespace Sample.GRPC.Client.API.GRPCClient
     public interface IServiceClientGrpc
     {
         Task<Guid> Create(SampleEntityPost request);
-        Task Delete(Guid id);
+        Task Delete(string id);
         Task<IEnumerable<SampleEntityGet>> Get();
-        Task<SampleEntityGet> GetSingle(Guid id);
+        Task<SampleEntityGet> GetSingle(string id);
         Task<Guid> Update(SampleEntityPut request);
     }
 }

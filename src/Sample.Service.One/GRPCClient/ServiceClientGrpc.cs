@@ -32,9 +32,9 @@ public class ServiceClientGrpc : IServiceClientGrpc
         throw new InvalidOperationException(string.Join(',', response.Exceptions.Select(x => x.Message)));
     }
 
-    public async Task<SampleEntityGet> GetSingle(Guid id)
+    public async Task<SampleEntityGet> GetSingle(string id)
     {
-        var response = await _client.GetSingleAsync(new entityRequest() { Id = id.ToString() }, _metadata);
+        var response = await _client.GetSingleAsync(new entityRequest() { Id = id }, _metadata);
 
         if (response.Success)
         {
@@ -71,9 +71,9 @@ public class ServiceClientGrpc : IServiceClientGrpc
     }
 
 
-    public async Task Delete(Guid id)
+    public async Task Delete(string id)
     {
-        var response = await _client.DeleteAsync(new entityRequest() { Id = id.ToString() }, _metadata);
+        var response = await _client.DeleteAsync(new entityRequest() { Id = id }, _metadata);
 
         if (!response.Success)
         {

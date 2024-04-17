@@ -38,7 +38,7 @@ app.MapGet("/Get", async (DummyContext dbContext) =>
 .WithName("Get")
 .WithOpenApi();
 
-app.MapGet("/GetSingle", async (DummyContext dbContext, [FromRoute] Guid payload) =>
+app.MapGet("/GetSingle/{payload}", async (DummyContext dbContext, [FromRoute] Guid payload) =>
 {
     return await dbContext.SampleEntities.SingleAsync(x => x.Id == payload);
 })

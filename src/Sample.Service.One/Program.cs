@@ -33,7 +33,7 @@ app.MapGet("/Get", async (IServiceClientGrpc service) =>
 .WithName("Get")
 .WithOpenApi();
 
-app.MapGet("/GetSingle", async (IServiceClientGrpc service, [FromRoute] Guid payload) =>
+app.MapGet("/GetSingle/{payload}", async (IServiceClientGrpc service, [FromRoute] string payload) =>
 {
     return await service.GetSingle(payload);
 })
@@ -55,7 +55,7 @@ app.MapPost("/Update", async (IServiceClientGrpc service, [FromBody] SampleEntit
 .WithOpenApi();
 
 
-app.MapDelete("/Delete", async (IServiceClientGrpc service, [FromRoute] Guid payload) =>
+app.MapDelete("/Delete/{payload}", async (IServiceClientGrpc service, [FromRoute] string payload) =>
 {
     await service.Delete(payload);
 })
