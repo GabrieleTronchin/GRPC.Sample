@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="GRPCClient\servicetwo.proto" />
+    <None Remove="GRPCClient\sampleservice.proto" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
 	  <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-	<Protobuf Include="GRPCClient\servicetwo.proto" GrpcServices="Client" />
+	  <Protobuf Include="GRPCClient\sampleservice.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

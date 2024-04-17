@@ -1,14 +1,14 @@
 ﻿using Grpc.Core;
-using ServiceTwoProto;
+using SampleServiceProto;
 
 namespace Sample.GRPC.Client.API.GRPCClient;
 
 public class ServiceClientGrpc : IServiceClientGrpc
 {
-    private readonly ServiceTwoApi.ServiceTwoApiClient _client;
+    private readonly SampleServiceApi.SampleServiceApiBase _client;
     private readonly Metadata _metadata;
 
-    public ServiceClientGrpc(ServiceTwoApi.ServiceTwoApiClient client)
+    public ServiceClientGrpc(SampleServiceApi.SampleServiceApiBase client)
     {
         _client = client;
         _metadata = new Metadata
@@ -16,9 +16,9 @@ public class ServiceClientGrpc : IServiceClientGrpc
             { "X-Apikey", "68e5fbda-9ec9-4858-97b2-4a8349764c63" } //just for test purpose
         };
     }
-    public async Task<singleResponseModel> CreateShowTime(DummyCreationRequest request)
+    public async Task<operationCompleteModel> CreateShowTime(CreationRequest request)
     {
-        return await _client.CreateDummyEntityAsync(request, _metadata);
+        return await _client.Create(request, _metadata);
     }
 
 }

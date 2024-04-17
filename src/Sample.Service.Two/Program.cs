@@ -37,6 +37,6 @@ app.MapGet("/Gets", async (DummyContext dbContext) =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
-app.MapGrpcService<ServiceTwoService>();
+app.MapGrpcService<GrpcSampleService>();
 
 app.Run();

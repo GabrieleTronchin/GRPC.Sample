@@ -1,8 +1,9 @@
-﻿using ServiceTwoProto;
+﻿
+using SampleServiceProto;
 
 namespace Sample.GRPC.Client.API.GRPCClient;
 
 public interface IServiceClientGrpc
 {
-    Task<singleResponseModel> CreateShowTime(DummyCreationRequest request);
+    Task<operationCompleteModel> CreateShowTime(CreationRequest request);
 }

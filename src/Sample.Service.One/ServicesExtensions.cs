@@ -1,5 +1,5 @@
 ﻿using Sample.GRPC.Client.API.GRPCClient;
-using ServiceTwoProto;
+using SampleServiceProto;
 
 namespace Sample.GRPC.Client.API;
 
@@ -11,7 +11,7 @@ public static partial class ServicesExtensions
         var endpoint = configuration.GetSection("SampleGRPC:Endpoint").Value ?? throw new MissingFieldException("SampleGRPC:Endpoint");
 
 
-        services.AddGrpcClient<ServiceTwoApi.ServiceTwoApiClient>((services, options) =>
+        services.AddGrpcClient<SampleServiceApi.SampleServiceApiBase>((services, options) =>
         {
             options.Address = new Uri(endpoint);
         }).ConfigureChannel(o =>

@@ -13,7 +13,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
 	<PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.4" />
-	<Protobuf Include="Protos\servicetwo.proto" GrpcServices="Server" />
+	<Protobuf Include="Protos\sampleservice.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
