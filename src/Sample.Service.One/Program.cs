@@ -47,7 +47,7 @@ app.MapPost("/Create", async (IServiceClientGrpc service, [FromBody] SampleEntit
 .WithName("Create")
 .WithOpenApi();
 
-app.MapPost("/Update", async (IServiceClientGrpc service, [FromBody] SampleEntityPut payload) =>
+app.MapPut("/Update", async (IServiceClientGrpc service, [FromBody] SampleEntityPut payload) =>
 {
     return await service.Update(payload);
 })

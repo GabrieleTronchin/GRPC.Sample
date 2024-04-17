@@ -21,7 +21,7 @@ message entityModel {
   string name= 2;
   string description= 3;
   google.protobuf.Timestamp referenceDate= 4;
-  google.protobuf.Timestamp ModifiedDate= 5;
+  google.protobuf.Timestamp modifiedDate= 5;
 }
 
 
