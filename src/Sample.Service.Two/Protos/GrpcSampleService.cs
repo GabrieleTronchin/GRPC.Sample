@@ -29,7 +29,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred at {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogError(ex, "An error occurred at {Gets}", nameof(Gets));
 
             var errorRetModel = new responseEntitiesModel() { Success = false };
             errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
@@ -49,7 +49,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred at {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogError(ex, "An error occurred at {GetSingle}", nameof(GetSingle));
 
             var errorRetModel = new responseEntityModel() { Success = false };
             errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
@@ -61,7 +61,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
     {
         try
         {
-            logger.LogDebug("New Request received on {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogDebug("New Request received on {Create}", nameof(Create));
 
             var entity = new DummyEntity()
             {
@@ -76,13 +76,13 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
 
             await dbContext.SaveChangesAsync();
 
-            logger.LogDebug("Request completed {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogDebug("Request completed {Create}", nameof(Create));
 
             return new operationCompleteModel() { Success = true, Id = entity.Id.ToString() };
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred at {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogError(ex, "An error occurred at {Create}", nameof(Create));
 
             var errorRetModel = new operationCompleteModel() { Success = false };
             errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
@@ -94,7 +94,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
     {
         try
         {
-            logger.LogDebug("New Request received on {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogDebug("New Request received on {Update}", nameof(Update));
 
             var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Item.Id));
 
@@ -107,13 +107,13 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
 
             await dbContext.SaveChangesAsync();
 
-            logger.LogDebug("Request completed {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogDebug("Request completed {Update}", nameof(Update));
 
             return new operationCompleteModel() { Success = true, Id = obj.Id.ToString() };
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred at {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogError(ex, "An error occurred at {Update}", nameof(Update));
 
             var errorRetModel = new operationCompleteModel() { Success = false };
             errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
@@ -125,19 +125,19 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
     {
         try
         {
-            logger.LogDebug("New Request received on {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogDebug("New Request received on {Delete}", nameof(Delete));
             var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Id));
 
             dbContext.SampleEntities.Remove(obj);
             await dbContext.SaveChangesAsync();
 
-            logger.LogDebug("Request completed {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogDebug("Request completed {Delete}", nameof(Delete));
 
             return new responseModel() { Success = true };
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occurred at {grpcServiceName}", nameof(GrpcSampleService));
+            logger.LogError(ex, "An error occurred at {Delete}", nameof(Delete));
 
             var errorRetModel = new responseModel() { Success = false };
             errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
