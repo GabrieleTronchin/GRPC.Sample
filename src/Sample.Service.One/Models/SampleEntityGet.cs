@@ -19,7 +19,7 @@ public class SampleEntityPut : SampleEntityPost
 
 
 
-public class SampleEntityGet : SampleEntityPost
+public class SampleEntityGet : SampleEntityPut
 {
-    public DateTime lastTimeModified { get; set; }
+    public DateTime LastTimeModified { get; set; }
 }

@@ -1,8 +1,10 @@
 ﻿using Grpc.Core;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Models;
 using Sample.GRPC.Server.API.Persistence;
 using SampleServiceProto;
+using System.Collections.Generic;
 
 namespace Sample.GRPC.Server.API.Protos;
 
@@ -20,7 +22,10 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         {
             var lst = await dbContext.SampleEntities.ToListAsync();
 
-            return new responseEntitiesModel() { Success = true };
+            var response = new responseEntitiesModel() { Success = true };
+            response.Items.AddRange(lst.Adapt<IEnumerable<entityModel>>());
+
+            return response;
         }
         catch (Exception ex)
         {
@@ -38,7 +43,9 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
         {
             var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Id));
 
-            return new responseEntityModel() { Success = true };
+            var response = new responseEntityModel() { Success = true, Item = obj.Adapt<entityModel>() };
+
+            return response;
         }
         catch (Exception ex)
         {

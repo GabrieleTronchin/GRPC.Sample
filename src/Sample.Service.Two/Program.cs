@@ -1,5 +1,7 @@
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sample.GRPC.Server.API.Mapster;
 using Sample.GRPC.Server.API.Persistence;
 using Sample.GRPC.Server.API.Protos;
 
@@ -9,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddMapster();
 builder.Services.AddGrpc();
 
 builder.Services.AddDbContext<DummyContext>(options =>
@@ -48,5 +50,8 @@ app.MapGet("/GetSingle/{payload}", async (DummyContext dbContext, [FromRoute] Gu
 
 
 app.MapGrpcService<GrpcSampleService>();
+
+
+MapsterSettings.Configure();
 
 app.Run();

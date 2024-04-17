@@ -14,9 +14,9 @@
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
-	  <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
-	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-	  <Protobuf Include="GRPCClient\sampleservice.proto" GrpcServices="Client" />
+	<PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	<Protobuf Include="GRPCClient\sampleservice.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>
