@@ -9,8 +9,10 @@ package servicetwo;
 
 service ServiceTwoApi {
   rpc GetEntities (Empty) returns (responseModel);
-  rpc CreateDummyEntity (DummyCreationRequest) returns (responseModel);
+  rpc CreateDummyEntity (DummyCreationRequest) returns (singleResponseModel);
 }
+
+
 message dummyEntityRequest {
   string name= 1;
   string description= 2;
@@ -29,9 +31,16 @@ message apiException {
 }
 
 // Response model
-message responseModel {
+message singleResponseModel {
   bool success = 1;
   string id= 2;
+  google.protobuf.Any data  = 3;
+  repeated apiException exceptions = 4;
+}
+
+message responseModel {
+  bool success = 1;
+  repeated dummyEntityRequest items = 2
   google.protobuf.Any data  = 3;
   repeated apiException exceptions = 4;
 }

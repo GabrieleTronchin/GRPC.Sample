@@ -1,6 +1,8 @@
 ﻿using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Sample.Service.Two.Models;
+using Sample.Service.Two.Persistence;
 using ServiceTwoProto;
 
 namespace Sample.Service.Two.Protos;
@@ -10,7 +12,7 @@ namespace Sample.Service.Two.Protos;
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="cache"></param>
-public class ServiceTwoService(ILogger<ServiceTwoService> logger, IMemoryCache cache) : ServiceTwoApi.ServiceTwoApiBase
+public class ServiceTwoService(ILogger<ServiceTwoService> logger, DummyContext dbContext) : ServiceTwoApi.ServiceTwoApiBase
 {
 
 
@@ -23,8 +25,9 @@ public class ServiceTwoService(ILogger<ServiceTwoService> logger, IMemoryCache c
     public override async Task<responseModel> GetEntities(Empty request, ServerCallContext context) {
         try
         {
+            var lst = await dbContext.SampleEntities.ToListAsync();
 
-            return new responseModel() { Success = true, Id = "Test" };
+            return new responseModel() { Success = true };
         }
         catch (Exception ex)
         {
@@ -42,24 +45,31 @@ public class ServiceTwoService(ILogger<ServiceTwoService> logger, IMemoryCache c
     /// <param name="request"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<responseModel> CreateDummyEntity(DummyCreationRequest request, ServerCallContext context)
+    public override async Task<singleResponseModel> CreateDummyEntity(DummyCreationRequest request, ServerCallContext context)
     {
         try
         {
             logger.LogDebug("New Request received on {grpcServiceName}", nameof(ServiceTwoService));
 
 
-            cache.Set("", new DummyEntity());
+            await dbContext.SampleEntities.AddAsync(new DummyEntity() {
+                Id=new Guid(),
+                Description = request.DummyEntity.Description,
+                Name = request.DummyEntity.Name,
+                ReferenceDate = request.DummyEntity.ReferenceDate.ToDateTime(),
+            });
+
+            await dbContext.SaveChangesAsync();
 
             logger.LogDebug("Request completed {grpcServiceName}", nameof(ServiceTwoService));
 
-            return new responseModel() { Success = true, Id = "Test" };
+            return new singleResponseModel() { Success = true, Id = "Test" };
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "An error occurred at {grpcServiceName}", nameof(ServiceTwoService));
 
-            var errorRetModel = new responseModel() { Success = false };
+            var errorRetModel = new singleResponseModel() { Success = false };
             errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
             return errorRetModel;
         }

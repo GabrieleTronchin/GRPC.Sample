@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Sample.Service.Two.Persistence;
 using Sample.Service.Two.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddGrpc();
+
+builder.Services.AddDbContext<DummyContext>(options =>
+{
+    options.UseInMemoryDatabase("Dummy")
+        .EnableSensitiveDataLogging();
+});
 
 
 var app = builder.Build();

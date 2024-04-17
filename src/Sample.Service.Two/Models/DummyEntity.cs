@@ -9,6 +9,6 @@ public class DummyEntity
 
     public string Description { get; set; }
 
-    public string ReferenceDate { get; set; }
+    public DateTime ReferenceDate { get; set; }
 
 }
