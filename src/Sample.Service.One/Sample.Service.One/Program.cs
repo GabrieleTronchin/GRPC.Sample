@@ -19,7 +19,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getdatafromservicetwo", () =>
 {
-   throw new NotImplementedException();
+    throw new NotImplementedException();
 })
 .WithName("GetDataFromServiceTwo")
 .WithOpenApi();

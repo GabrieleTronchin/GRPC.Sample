@@ -1,24 +1,24 @@
-﻿//using Grpc.Core;
-//using ShowTimeProto;
+﻿using Grpc.Core;
+using ServiceTwoProto;
 
-//namespace Cinema.Client;
+namespace Sample.Service.One.GRPCClient;
 
-//public class ServiceTwoClientGrpc : IServiceTwoClientGrpc
-//{
-//    private readonly ShowTimeApi.ShowTimeApiClient _client;
-//    private readonly Metadata _metadata;
+public class ServiceTwoClientGrpc : IServiceTwoClientGrpc
+{
+    private readonly ServiceTwoApi.ServiceTwoApiClient _client;
+    private readonly Metadata _metadata;
 
-//    public ServiceTwoClientGrpc(ShowTimeApi.ShowTimeApiClient client)
-//    {
-//        _client = client;
-//        _metadata = new Metadata
-//        {
-//            { "X-Apikey", "68e5fbda-9ec9-4858-97b2-4a8349764c63" } //just for test purpose
-//        };
-//    }
-//    public async Task<responseModel> CreateShowTime(ShowtimeCreationRequest request)
-//    {
-//        return await _client.CreateShowTimeAsync(request, _metadata);
-//    }
+    public ServiceTwoClientGrpc(ServiceTwoApi.ServiceTwoApiClient client)
+    {
+        _client = client;
+        _metadata = new Metadata
+        {
+            { "X-Apikey", "68e5fbda-9ec9-4858-97b2-4a8349764c63" } //just for test purpose
+        };
+    }
+    public async Task<responseModel> CreateShowTime(DummyCreationRequest request)
+    {
+        return await _client.CreateDummyEntityAsync(request, _metadata);
+    }
 
-//}
+}

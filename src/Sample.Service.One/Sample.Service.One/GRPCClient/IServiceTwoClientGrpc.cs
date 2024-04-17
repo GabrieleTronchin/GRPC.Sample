@@ -1,8 +1,8 @@
-﻿//using ShowTimeProto;
+﻿using ServiceTwoProto;
 
-//namespace Cinema.Client;
+namespace Sample.Service.One.GRPCClient;
 
-//public interface IServiceTwoClientGrpc
-//{
-//    Task<responseModel> CreateShowTime(ShowtimeCreationRequest request);
-//}
+public interface IServiceTwoClientGrpc
+{
+    Task<responseModel> CreateShowTime(DummyCreationRequest request);
+}

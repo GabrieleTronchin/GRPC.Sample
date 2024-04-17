@@ -1,4 +1,4 @@
-using Sample.Service.Two;
+using Sample.Service.Two.Protos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +41,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
-app.MapGrpcService<DummyGRPCService>();
+app.MapGrpcService<ServiceTwoService>();
 
 app.Run();
 
