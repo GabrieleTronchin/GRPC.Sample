@@ -8,6 +8,7 @@ package servicetwo;
 
 
 service ServiceTwoApi {
+  rpc RetrieveAllEntities (Empty) returns (responseModel);
   rpc CreateDummyEntity (DummyCreationRequest) returns (responseModel);
 }
 message dummyEntityRequest {
@@ -33,4 +34,8 @@ message responseModel {
   string id= 2;
   google.protobuf.Any data  = 3;
   repeated apiException exceptions = 4;
+}
+
+message Empty {
+
 }

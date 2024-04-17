@@ -1,13 +1,14 @@
-﻿using ServiceTwoProto;
+﻿using Sample.Service.One.GRPCClient;
+using ServiceTwoProto;
 
-namespace Sample.Service.One.GRPCClient;
+namespace Sample.Service.One;
 
 public static partial class ServicesExtensions
 {
-    public static IServiceCollection AddCinemaClient(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSampleGRPCClient(this IServiceCollection services, IConfiguration configuration)
     {
 
-        var endpoint = configuration.GetSection("CinemaGrpc:Endpoint").Value ?? throw new MissingFieldException("CinemaGrpc:Endpoint");
+        var endpoint = configuration.GetSection("SampleGRPC:Endpoint").Value ?? throw new MissingFieldException("SampleGRPC:Endpoint");
 
 
         services.AddGrpcClient<ServiceTwoApi.ServiceTwoApiClient>((services, options) =>
