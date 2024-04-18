@@ -1,4 +1,4 @@
-## Sample gRPC Implementation Overview
+## Sample gRPC Implementation
 
 This project presents a practical implementation of gRPC communication, featuring two distinct services:
 
