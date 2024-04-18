@@ -1,52 +1,41 @@
 ## Sample gRPC Implementation Overview
 
-In this project, a sample implementation of gRPC communication has been realized. Two distinct services constitute the architecture:
+This project exemplifies a practical implementation of gRPC communication, comprising two distinct services:
 
-1. **Sample.GRPC.Client.API**: This service encapsulates CRUD operations, utilizing a gRPC client to interact with the underlying Sample.GRPC.Server.API.
-
-2. **Sample.GRPC.Server.API**: This service functions as a gRPC server, facilitating CRUD operations. For testing purposes, an in-memory database has been employed.
-
+1. **Sample.GRPC.Client.API**: This service encapsulates CRUD operations, employing a gRPC client to interact with the underlying Sample.GRPC.Server.API.
+2. **Sample.GRPC.Server.API**: Functioning as a gRPC server, this service facilitates CRUD operations. For testing purposes, an in-memory database has been utilized.
 
 ![Swaggers](assets/Swaggers.png)
-
 
 ## Technical Explanation
 
 ### gRPC
 
-gRPC stands as a modern, open-source RPC (Remote Procedure Call) framework, boasting high performance and versatility. It excels in connecting services across various environments, offering features such as load balancing, tracing, health checking, and authentication. Notably, it extends its utility from data center interconnectivity to the last mile of distributed computing, seamlessly linking devices, mobile applications, and browsers to backend services.
+gRPC stands as a contemporary, open-source RPC (Remote Procedure Call) framework, renowned for its high performance and versatility. 
 
-Key Advantages of gRPC:
+Advantages of gRPC:
+- **High-Speed RPC Framework**: Offers advanced performance and agility in communication.
+- **Contract-First Approach**: Leverages Protocol Buffers for API development, enabling language-agnostic implementations.
+- **Streaming Support**: Enables seamless streaming communication for clients, servers, and bidirectional scenarios.
+- **Efficient Serialization**: Minimizes network overhead through the binary serialization of Protobuf.
 
-1. **High-Speed RPC Framework**: Provides advanced performance and agility in communication.
-   
-2. **Contract-First Approach**: Utilizes Protocol Buffers for API development, enabling language-agnostic implementations.
-   
-3. **Rich Tooling Support**: Offers robust tooling across different languages for generating typed servers and clients.
-   
-4. **Streaming Support**: Enables streaming communication for clients, servers, and bidirectional scenarios.
-   
-5. **Efficient Serialization**: Minimizes network overhead through the binary serialization of Protobuf.
-
-gRPC finds optimal application in:
-
-- **Microservices Architectures**: Prioritizes efficiency and streamlined communication.
-  
-- **Polyglot Environments**: Facilitates development across multiple languages.
-  
+gRPC is ideally suited for:
+- **Microservices Architectures**: Emphasizes efficiency and streamlined communication.
+- **Polyglot Environments**: Facilitates development across multiple programming languages.
 - **Real-Time Services**: Seamlessly handles streaming requests and responses.
 
 Official Resources:
 
 - Website: [gRPC.io](https://grpc.io/)
-  
 - .NET Documentation: [gRPC for .NET](https://grpc.io/docs/languages/csharp/)
-
-For authentication exploration, refer to: [gRPC Authentication](https://grpc.github.io/grpc/csharp/api/Grpc.Auth.html)
+- .NET Examples ([GitHub Repository](https://github.com/grpc/grpc-dotnet/tree/master/examples))
 
 ### Proto File
 
-The initial step involves defining a proto file, adhering to established conventions and guidelines:
+The initial step involves defining a proto file.
+Within our proto file, we define our gRPC service methods, request, and response models.
+
+Here's a portion of the proto file found within this project:
 
 ```protobuf
 syntax = "proto3";
@@ -66,41 +55,69 @@ service SampleServiceApi {
   rpc Delete (entityRequest) returns (responseModel);
 }
 
+message entityModel {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp referenceDate = 4;
+  google.protobuf.Timestamp modifiedDate = 5;
+}
+
 // Message and service definitions follow...
 ```
 
-Key Points for Compiling Proto Files:
+Some details:
+- `csharp_namespace`: Specifies the namespace you can utilize within your C# code to reference the models defined in the proto file.
+- `service SampleServiceApi`: Defines the service name and the methods it provides.
+- `entityModel`: Provides a sample definition of an entity.
 
-- **File Extension**: Utilize the ".proto" extension for proto files.
-  
-- **Syntax Declaration**: Begin with a syntax declaration, specifying the Protocol Buffers version.
-  
-- **Package Declaration**: Declare a package to prevent naming conflicts, ideally using reverse domain notation.
-  
-- **Imports**: Include necessary imports for external proto files.
-  
-- **Service and RPC Definitions**: Define services and RPC methods within, specifying request and response types.
-  
-- **Message Definitions**: Define message types with specific fields and types.
-  
-- **Comments and Well-Known Types**: Use comments for documentation and prefer well-known types for common data structures.
-
-Adherence to these rules ensures readability, consistency, and compatibility across different gRPC implementations.
+For further details about syntax, refer [here](https://protobuf.dev/programming-guides/proto3/).
 
 ## Server API
 
-The server-side implementation showcases efficient handling of CRUD operations:
+The server-side implementation exemplifies efficient handling of CRUD operations.
+After defining a proto file, it must be imported into our .NET project and the type of service specified.
+Here's a sample excerpt from the project reference:
+
+```
+	<Protobuf Include="Protos\sampleservice.proto" GrpcServices="Server" />
+```
+
+Following the import of the proto file, a class is defined that inherits from `SampleServiceApi`.
+Inside this class, the methods defined for the service in the proto file are overridden to provide custom implementation.
 
 ```csharp
 public class GrpcSampleService : SampleServiceApi.SampleServiceApiBase
 {
-    // Method implementations...
+  public override async Task<responseEntitiesModel> Gets(Empty request, ServerCallContext context)
+  {
+      try
+      {
+          var lst = await dbContext.SampleEntities.ToListAsync();
+
+          var response = new responseEntitiesModel() { Success = true };
+          response.Items.AddRange(lst.Adapt<IEnumerable<entityModel>>());
+
+          return response;
+      }
+      catch (Exception ex)
+      {
+          logger.LogError(ex, "An error occurred at {Gets}", nameof(Gets));
+
+          var errorRetModel = new responseEntitiesModel() { Success = false };
+          errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
+          return errorRetModel;
+      }
+  }
+
+
+    // Other Method implementations...
 }
 ```
 
 ## Client API
 
-The client-side implementation provides a seamless interface for interacting with the server:
+The client-side implementation offers a seamless interface for interacting with the server:
 
 ```csharp
 public class ServiceClientGrpc : IServiceClientGrpc
