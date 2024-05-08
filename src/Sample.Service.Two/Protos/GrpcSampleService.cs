@@ -1,10 +1,10 @@
-﻿using Grpc.Core;
+﻿using System.Collections.Generic;
+using Grpc.Core;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Models;
 using Sample.GRPC.Server.API.Persistence;
 using SampleServiceProto;
-using System.Collections.Generic;
 
 namespace Sample.GRPC.Server.API.Protos;
 
@@ -13,9 +13,9 @@ namespace Sample.GRPC.Server.API.Protos;
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="cache"></param>
-public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext dbContext) : SampleServiceApi.SampleServiceApiBase
+public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext dbContext)
+    : SampleServiceApi.SampleServiceApiBase
 {
-
     public override async Task<responseEntitiesModel> Gets(Empty request, ServerCallContext context)
     {
         try
@@ -32,18 +32,29 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             logger.LogError(ex, "An error occurred at {Gets}", nameof(Gets));
 
             var errorRetModel = new responseEntitiesModel() { Success = false };
-            errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
+            errorRetModel.Exceptions.Add(
+                new apiException() { Message = ex.Message, StatusCode = 500 }
+            );
             return errorRetModel;
         }
     }
 
-    public override async Task<responseEntityModel> GetSingle(entityRequest request, ServerCallContext context)
+    public override async Task<responseEntityModel> GetSingle(
+        entityRequest request,
+        ServerCallContext context
+    )
     {
         try
         {
-            var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Id));
+            var obj = await dbContext.SampleEntities.SingleAsync(x =>
+                x.Id == Guid.Parse(request.Id)
+            );
 
-            var response = new responseEntityModel() { Success = true, Item = obj.Adapt<entityModel>() };
+            var response = new responseEntityModel()
+            {
+                Success = true,
+                Item = obj.Adapt<entityModel>()
+            };
 
             return response;
         }
@@ -52,12 +63,17 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             logger.LogError(ex, "An error occurred at {GetSingle}", nameof(GetSingle));
 
             var errorRetModel = new responseEntityModel() { Success = false };
-            errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
+            errorRetModel.Exceptions.Add(
+                new apiException() { Message = ex.Message, StatusCode = 500 }
+            );
             return errorRetModel;
         }
     }
 
-    public override async Task<operationCompleteModel> Create(CreationRequest request, ServerCallContext context)
+    public override async Task<operationCompleteModel> Create(
+        CreationRequest request,
+        ServerCallContext context
+    )
     {
         try
         {
@@ -85,18 +101,25 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             logger.LogError(ex, "An error occurred at {Create}", nameof(Create));
 
             var errorRetModel = new operationCompleteModel() { Success = false };
-            errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
+            errorRetModel.Exceptions.Add(
+                new apiException() { Message = ex.Message, StatusCode = 500 }
+            );
             return errorRetModel;
         }
     }
 
-    public override async Task<operationCompleteModel> Update(UpdateRequest request, ServerCallContext context)
+    public override async Task<operationCompleteModel> Update(
+        UpdateRequest request,
+        ServerCallContext context
+    )
     {
         try
         {
             logger.LogDebug("New Request received on {Update}", nameof(Update));
 
-            var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Item.Id));
+            var obj = await dbContext.SampleEntities.SingleAsync(x =>
+                x.Id == Guid.Parse(request.Item.Id)
+            );
 
             obj.Name = request.Item.Name;
             obj.Description = request.Item.Description;
@@ -116,17 +139,24 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             logger.LogError(ex, "An error occurred at {Update}", nameof(Update));
 
             var errorRetModel = new operationCompleteModel() { Success = false };
-            errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
+            errorRetModel.Exceptions.Add(
+                new apiException() { Message = ex.Message, StatusCode = 500 }
+            );
             return errorRetModel;
         }
     }
 
-    public override async Task<responseModel> Delete(entityRequest request, ServerCallContext context)
+    public override async Task<responseModel> Delete(
+        entityRequest request,
+        ServerCallContext context
+    )
     {
         try
         {
             logger.LogDebug("New Request received on {Delete}", nameof(Delete));
-            var obj = await dbContext.SampleEntities.SingleAsync(x => x.Id == Guid.Parse(request.Id));
+            var obj = await dbContext.SampleEntities.SingleAsync(x =>
+                x.Id == Guid.Parse(request.Id)
+            );
 
             dbContext.SampleEntities.Remove(obj);
             await dbContext.SaveChangesAsync();
@@ -140,10 +170,10 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             logger.LogError(ex, "An error occurred at {Delete}", nameof(Delete));
 
             var errorRetModel = new responseModel() { Success = false };
-            errorRetModel.Exceptions.Add(new apiException() { Message = ex.Message, StatusCode = 500 });
+            errorRetModel.Exceptions.Add(
+                new apiException() { Message = ex.Message, StatusCode = 500 }
+            );
             return errorRetModel;
         }
     }
-
-
 }
