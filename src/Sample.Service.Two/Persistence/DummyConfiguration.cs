@@ -11,4 +11,3 @@ internal class DummyConfiguration : IEntityTypeConfiguration<DummyEntity>
         builder.HasKey(t => t.Id);
     }
 }
-

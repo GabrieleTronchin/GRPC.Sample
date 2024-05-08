@@ -2,7 +2,6 @@
 
 public class DummyEntity
 {
-
     public Guid Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
@@ -12,6 +11,4 @@ public class DummyEntity
     public DateTime ReferenceDate { get; set; }
 
     public DateTime LastTimeModified { get; set; }
-
-
 }

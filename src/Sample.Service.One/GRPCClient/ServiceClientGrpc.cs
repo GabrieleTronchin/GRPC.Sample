@@ -19,7 +19,6 @@ public class ServiceClientGrpc : IServiceClientGrpc
         };
     }
 
-
     public async Task<IEnumerable<SampleEntityGet>> Get()
     {
         var response = await _client.GetsAsync(new Empty(), _metadata);
@@ -29,7 +28,9 @@ public class ServiceClientGrpc : IServiceClientGrpc
             return response.Items.Adapt<IEnumerable<SampleEntityGet>>();
         }
 
-        throw new InvalidOperationException(string.Join(',', response.Exceptions.Select(x => x.Message)));
+        throw new InvalidOperationException(
+            string.Join(',', response.Exceptions.Select(x => x.Message))
+        );
     }
 
     public async Task<SampleEntityGet> GetSingle(string id)
@@ -41,9 +42,10 @@ public class ServiceClientGrpc : IServiceClientGrpc
             return response.Item.Adapt<SampleEntityGet>();
         }
 
-        throw new InvalidOperationException(string.Join(',', response.Exceptions.Select(x => x.Message)));
+        throw new InvalidOperationException(
+            string.Join(',', response.Exceptions.Select(x => x.Message))
+        );
     }
-
 
     public async Task<Guid> Create(SampleEntityPost request)
     {
@@ -54,9 +56,10 @@ public class ServiceClientGrpc : IServiceClientGrpc
             return Guid.Parse(response.Id);
         }
 
-        throw new InvalidOperationException(string.Join(',', response.Exceptions.Select(x => x.Message)));
+        throw new InvalidOperationException(
+            string.Join(',', response.Exceptions.Select(x => x.Message))
+        );
     }
-
 
     public async Task<Guid> Update(SampleEntityPut request)
     {
@@ -67,9 +70,10 @@ public class ServiceClientGrpc : IServiceClientGrpc
             return Guid.Parse(response.Id);
         }
 
-        throw new InvalidOperationException(string.Join(',', response.Exceptions.Select(x => x.Message)));
+        throw new InvalidOperationException(
+            string.Join(',', response.Exceptions.Select(x => x.Message))
+        );
     }
-
 
     public async Task Delete(string id)
     {
@@ -77,9 +81,9 @@ public class ServiceClientGrpc : IServiceClientGrpc
 
         if (!response.Success)
         {
-            throw new InvalidOperationException(string.Join(',', response.Exceptions.Select(x => x.Message)));
+            throw new InvalidOperationException(
+                string.Join(',', response.Exceptions.Select(x => x.Message))
+            );
         }
-
     }
-
 }

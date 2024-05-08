@@ -16,10 +16,8 @@ builder.Services.AddGrpc();
 
 builder.Services.AddDbContext<DummyContext>(options =>
 {
-    options.UseInMemoryDatabase("Dummy")
-        .EnableSensitiveDataLogging();
+    options.UseInMemoryDatabase("Dummy").EnableSensitiveDataLogging();
 });
-
 
 var app = builder.Build();
 
@@ -32,25 +30,27 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet(
+        "/Get",
+        async (DummyContext dbContext) =>
+        {
+            return await dbContext.SampleEntities.ToListAsync();
+        }
+    )
+    .WithName("Get")
+    .WithOpenApi();
 
-app.MapGet("/Get", async (DummyContext dbContext) =>
-{
-    return await dbContext.SampleEntities.ToListAsync();
-})
-.WithName("Get")
-.WithOpenApi();
-
-app.MapGet("/GetSingle/{payload}", async (DummyContext dbContext, [FromRoute] Guid payload) =>
-{
-    return await dbContext.SampleEntities.SingleAsync(x => x.Id == payload);
-})
-.WithName("GetSingle")
-.WithOpenApi();
-
-
+app.MapGet(
+        "/GetSingle/{payload}",
+        async (DummyContext dbContext, [FromRoute] Guid payload) =>
+        {
+            return await dbContext.SampleEntities.SingleAsync(x => x.Id == payload);
+        }
+    )
+    .WithName("GetSingle")
+    .WithOpenApi();
 
 app.MapGrpcService<GrpcSampleService>();
-
 
 MapsterSettings.Configure();
 
