@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Endpoints;
 using Sample.GRPC.Server.API.Mapster;
 using Sample.GRPC.Server.API.Persistence;
+using Sample.GRPC.Server.API.SampleComunicationService;
+using Sample.GRPC.Server.API.SampleCrudService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.AddCRUDEndpoints();
+app.AddComunicationEndpoints();
+
+app.MapGrpcService<GrpcCrudSampleService>();
+app.MapGrpcService<GrpcComunicationSampleService>();
 
 MapsterSettings.Configure();
 

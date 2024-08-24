@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.AddCRUDEndpoints();
+app.AddComunicationEndpoints();
 
 MapsterSettings.Configure();
 

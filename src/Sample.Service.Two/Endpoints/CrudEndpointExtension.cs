@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Persistence;
-using Sample.GRPC.Server.API.SampleComunicationService;
-using Sample.GRPC.Server.API.SampleCrudService;
 
 namespace Sample.GRPC.Server.API.Endpoints;
 
@@ -34,7 +32,6 @@ public static partial class EndpointExtensions
             .WithName("GetSingle")
             .WithOpenApi();
 
-        group.MapGrpcService<GrpcCrudSampleService>();
-        group.MapGrpcService<GrpcComunicationSampleService>();
+
     }
 }
