@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="SampleComunicationService\samplecomunicationservice.proto" />
+  </ItemGroup>
+
 	
   <ItemGroup>
 	<PackageReference Include="Mapster" Version="7.4.0" />
@@ -15,6 +19,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.2" />
 	<PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
+	<Protobuf Include="SampleComunicationService\samplecomunicationservice.proto" GrpcServices="Server" />
 	<Protobuf Include="SampleCrudService\sampleservice.proto" GrpcServices="Server" />
   </ItemGroup>
 

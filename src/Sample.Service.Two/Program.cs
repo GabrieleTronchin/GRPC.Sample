@@ -51,6 +51,9 @@ app.MapGet(
     .WithOpenApi();
 
 app.MapGrpcService<GrpcCrudSampleService>();
+app.MapGrpcService<GrpcComunicationSampleService>();
+
+
 
 MapsterSettings.Configure();
 
