@@ -1,9 +1,9 @@
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Sample.GRPC.Client.API;
-using Sample.GRPC.Client.API.GRPCClient;
 using Sample.GRPC.Client.API.Mapster;
 using Sample.GRPC.Client.API.Models;
+using Sample.GRPC.Client.API.SampleCrudService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +27,7 @@ app.UseHttpsRedirection();
 
 app.MapGet(
         "/Get",
-        async (IServiceClientGrpc service) =>
+        async (ISampleCrudServiceClientGrpc service) =>
         {
             return await service.Get();
         }
@@ -37,7 +37,7 @@ app.MapGet(
 
 app.MapGet(
         "/GetSingle/{payload}",
-        async (IServiceClientGrpc service, [FromRoute] string payload) =>
+        async (ISampleCrudServiceClientGrpc service, [FromRoute] string payload) =>
         {
             return await service.GetSingle(payload);
         }
@@ -47,7 +47,7 @@ app.MapGet(
 
 app.MapPost(
         "/Create",
-        async (IServiceClientGrpc service, [FromBody] SampleEntityPost payload) =>
+        async (ISampleCrudServiceClientGrpc service, [FromBody] SampleEntityPost payload) =>
         {
             return await service.Create(payload);
         }
@@ -57,7 +57,7 @@ app.MapPost(
 
 app.MapPut(
         "/Update",
-        async (IServiceClientGrpc service, [FromBody] SampleEntityPut payload) =>
+        async (ISampleCrudServiceClientGrpc service, [FromBody] SampleEntityPut payload) =>
         {
             return await service.Update(payload);
         }
@@ -67,7 +67,7 @@ app.MapPut(
 
 app.MapDelete(
         "/Delete/{payload}",
-        async (IServiceClientGrpc service, [FromRoute] string payload) =>
+        async (ISampleCrudServiceClientGrpc service, [FromRoute] string payload) =>
         {
             await service.Delete(payload);
         }

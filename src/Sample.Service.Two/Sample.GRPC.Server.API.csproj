@@ -15,7 +15,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.2" />
 	<PackageReference Include="Grpc.AspNetCore" Version="2.65.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
-	<Protobuf Include="Protos\sampleservice.proto" GrpcServices="Server" />
+	<Protobuf Include="SampleCrudService\sampleservice.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

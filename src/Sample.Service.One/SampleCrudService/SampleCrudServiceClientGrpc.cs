@@ -3,14 +3,14 @@ using Mapster;
 using Sample.GRPC.Client.API.Models;
 using SampleServiceProto;
 
-namespace Sample.GRPC.Client.API.GRPCClient;
+namespace Sample.GRPC.Client.API.SampleCrudService;
 
-public class ServiceClientGrpc : IServiceClientGrpc
+public class SampleCrudServiceClientGrpc : ISampleCrudServiceClientGrpc
 {
-    private readonly SampleServiceApi.SampleServiceApiClient _client;
+    private readonly SampleCrudServiceApi.SampleCrudServiceApiClient _client;
     private readonly Metadata _metadata;
 
-    public ServiceClientGrpc(SampleServiceApi.SampleServiceApiClient client)
+    public SampleCrudServiceClientGrpc(SampleCrudServiceApi.SampleCrudServiceApiClient client)
     {
         _client = client;
         _metadata = new Metadata

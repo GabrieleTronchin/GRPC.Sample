@@ -5,15 +5,15 @@ using Sample.GRPC.Server.API.Models;
 using Sample.GRPC.Server.API.Persistence;
 using SampleServiceProto;
 
-namespace Sample.GRPC.Server.API.Protos;
+namespace Sample.GRPC.Server.API.SampleCrudService;
 
 /// <summary>
 /// Sample CRUD Service with GRPC
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="cache"></param>
-public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext dbContext)
-    : SampleServiceApi.SampleServiceApiBase
+public class GrpcCrudSampleService(ILogger<GrpcCrudSampleService> logger, DummyContext dbContext)
+    : SampleCrudServiceApi.SampleCrudServiceApiBase
 {
     public override async Task<responseEntitiesModel> Gets(Empty request, ServerCallContext context)
     {

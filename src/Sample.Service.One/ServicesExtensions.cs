@@ -1,4 +1,4 @@
-﻿using Sample.GRPC.Client.API.GRPCClient;
+﻿using Sample.GRPC.Client.API.SampleCrudService;
 using SampleServiceProto;
 
 namespace Sample.GRPC.Client.API;
@@ -15,7 +15,7 @@ public static partial class ServicesExtensions
             ?? throw new MissingFieldException("SampleGRPC:Endpoint");
 
         services
-            .AddGrpcClient<SampleServiceApi.SampleServiceApiClient>(
+            .AddGrpcClient<SampleCrudServiceApi.SampleCrudServiceApiClient>(
                 (services, options) =>
                 {
                     options.Address = new Uri(endpoint);
@@ -30,7 +30,7 @@ public static partial class ServicesExtensions
                 };
             });
 
-        services.AddTransient<IServiceClientGrpc, ServiceClientGrpc>();
+        services.AddTransient<ISampleCrudServiceClientGrpc, SampleCrudServiceClientGrpc>();
         return services;
     }
 }

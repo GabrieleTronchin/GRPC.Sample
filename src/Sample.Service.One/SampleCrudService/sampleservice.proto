@@ -7,7 +7,7 @@ option csharp_namespace = "SampleServiceProto";
 package sampleservice;
 
 
-service SampleServiceApi {
+service SampleCrudServiceApi {
   rpc Gets (Empty) returns (responseEntitiesModel);
   rpc GetSingle (entityRequest) returns (responseEntityModel);
   rpc Create (CreationRequest) returns (operationCompleteModel);

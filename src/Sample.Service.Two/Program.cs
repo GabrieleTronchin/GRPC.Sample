@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Mapster;
 using Sample.GRPC.Server.API.Persistence;
-using Sample.GRPC.Server.API.Protos;
+using Sample.GRPC.Server.API.SampleCrudService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +50,7 @@ app.MapGet(
     .WithName("GetSingle")
     .WithOpenApi();
 
-app.MapGrpcService<GrpcSampleService>();
+app.MapGrpcService<GrpcCrudSampleService>();
 
 MapsterSettings.Configure();
 
