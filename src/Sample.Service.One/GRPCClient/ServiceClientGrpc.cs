@@ -15,7 +15,11 @@ public class ServiceClientGrpc : IServiceClientGrpc
         _client = client;
         _metadata = new Metadata
         {
-            { "X-Apikey", "68e5fbda-9ec9-4858-97b2-4a8349764c63" } //just for test purpose
+            {
+                "X-Apikey",
+                "68e5fbda-9ec9-4858-97b2-4a8349764c63"
+            } //just for test purpose
+            ,
         };
     }
 

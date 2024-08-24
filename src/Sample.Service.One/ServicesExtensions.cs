@@ -26,7 +26,7 @@ public static partial class ServicesExtensions
                 o.HttpHandler = new HttpClientHandler
                 {
                     ServerCertificateCustomValidationCallback =
-                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
                 };
             });
 

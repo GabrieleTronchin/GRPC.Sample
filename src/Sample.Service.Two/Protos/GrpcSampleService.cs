@@ -53,7 +53,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             var response = new responseEntityModel()
             {
                 Success = true,
-                Item = obj.Adapt<entityModel>()
+                Item = obj.Adapt<entityModel>(),
             };
 
             return response;
@@ -85,7 +85,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
                 Description = request.Item.Description,
                 Name = request.Item.Name,
                 ReferenceDate = request.Item.ReferenceDate.ToDateTime(),
-                LastTimeModified = DateTime.UtcNow
+                LastTimeModified = DateTime.UtcNow,
             };
 
             await dbContext.SampleEntities.AddAsync(entity);
