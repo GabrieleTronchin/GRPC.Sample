@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Models;
