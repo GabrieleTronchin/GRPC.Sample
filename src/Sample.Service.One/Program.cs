@@ -1,9 +1,7 @@
 using Mapster;
-using Microsoft.AspNetCore.Mvc;
 using Sample.GRPC.Client.API;
+using Sample.GRPC.Client.API.Endpoints;
 using Sample.GRPC.Client.API.Mapster;
-using Sample.GRPC.Client.API.Models;
-using Sample.GRPC.Client.API.SampleCrudService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,55 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet(
-        "/Get",
-        async (ISampleCrudServiceClientGrpc service) =>
-        {
-            return await service.Get();
-        }
-    )
-    .WithName("Get")
-    .WithOpenApi();
-
-app.MapGet(
-        "/GetSingle/{payload}",
-        async (ISampleCrudServiceClientGrpc service, [FromRoute] string payload) =>
-        {
-            return await service.GetSingle(payload);
-        }
-    )
-    .WithName("GetSingle")
-    .WithOpenApi();
-
-app.MapPost(
-        "/Create",
-        async (ISampleCrudServiceClientGrpc service, [FromBody] SampleEntityPost payload) =>
-        {
-            return await service.Create(payload);
-        }
-    )
-    .WithName("Create")
-    .WithOpenApi();
-
-app.MapPut(
-        "/Update",
-        async (ISampleCrudServiceClientGrpc service, [FromBody] SampleEntityPut payload) =>
-        {
-            return await service.Update(payload);
-        }
-    )
-    .WithName("Update")
-    .WithOpenApi();
-
-app.MapDelete(
-        "/Delete/{payload}",
-        async (ISampleCrudServiceClientGrpc service, [FromRoute] string payload) =>
-        {
-            await service.Delete(payload);
-        }
-    )
-    .WithName("Delete")
-    .WithOpenApi();
+app.AddCRUDEndpoints();
 
 MapsterSettings.Configure();
 

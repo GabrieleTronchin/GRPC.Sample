@@ -1,9 +1,8 @@
 using Mapster;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sample.GRPC.Server.API.Endpoints;
 using Sample.GRPC.Server.API.Mapster;
 using Sample.GRPC.Server.API.Persistence;
-using Sample.GRPC.Server.API.SampleCrudService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,30 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet(
-        "/Get",
-        async (DummyContext dbContext) =>
-        {
-            return await dbContext.SampleEntities.ToListAsync();
-        }
-    )
-    .WithName("Get")
-    .WithOpenApi();
-
-app.MapGet(
-        "/GetSingle/{payload}",
-        async (DummyContext dbContext, [FromRoute] Guid payload) =>
-        {
-            return await dbContext.SampleEntities.SingleAsync(x => x.Id == payload);
-        }
-    )
-    .WithName("GetSingle")
-    .WithOpenApi();
-
-app.MapGrpcService<GrpcCrudSampleService>();
-app.MapGrpcService<GrpcComunicationSampleService>();
-
-
+app.AddCRUDEndpoints();
 
 MapsterSettings.Configure();
 
