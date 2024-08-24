@@ -31,7 +31,5 @@ public static partial class EndpointExtensions
             )
             .WithName("GetSingle")
             .WithOpenApi();
-
-
     }
 }

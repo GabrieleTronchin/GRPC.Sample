@@ -1,4 +1,5 @@
 ﻿using Sample.GRPC.Client.API.SampleCrudService;
+using SampleComunicationServiceProto;
 using SampleServiceProto;
 
 namespace Sample.GRPC.Client.API;
@@ -30,7 +31,25 @@ public static partial class ServicesExtensions
                 };
             });
 
+        services
+            .AddGrpcClient<SampleComunicationServiceApi.SampleComunicationServiceApiClient>(
+                (services, options) =>
+                {
+                    options.Address = new Uri(endpoint);
+                }
+            )
+            .ConfigureChannel(o =>
+            {
+                o.HttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                };
+            });
+
         services.AddTransient<ISampleCrudServiceClientGrpc, SampleCrudServiceClientGrpc>();
+        services.AddTransient<ISampleComunicationService, SampleComunicationService>();
+
         return services;
     }
 }
