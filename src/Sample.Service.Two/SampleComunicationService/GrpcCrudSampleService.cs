@@ -1,6 +1,12 @@
-﻿using Grpc.Core;
+﻿using Bogus;
+using Grpc.Core;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
+using Sample.GRPC.Server.API.Models;
 using Sample.GRPC.Server.API.Persistence;
 using SampleComunicationServiceProto;
+using System.Text.Json;
+using System.Threading;
 
 namespace Sample.GRPC.Server.API.SampleComunicationService;
 
@@ -30,10 +36,27 @@ public class GrpcComunicationSampleService(
     {
         while (!context.CancellationToken.IsCancellationRequested)
         {
-            await responseStream.WriteAsync(new entityModel());
-            await Task.Delay(TimeSpan.FromSeconds(1), context.CancellationToken);
+            var datas = GetFakeDbData();
+            foreach (var data in datas)
+            {
+                await responseStream.WriteAsync(data.Adapt<entityModel>());
+            }
         }
     }
+
+    public List<DummyEntity> GetFakeDbData()
+    {
+        //simulate delay of db read
+        Task.Delay(1000).Wait();
+
+        return new Faker<DummyEntity>()
+             .RuleFor(nameof(DummyEntity.Id), f => f.Random.Guid())
+             .RuleFor(nameof(DummyEntity.Description), f => f.Random.String())
+             .RuleFor(nameof(DummyEntity.Name), f => f.Random.String())
+             .RuleFor(nameof(DummyEntity.ReferenceDate), f => f.Date.Recent())
+             .GenerateBetween(1, 3);
+    }
+
 
     public override async Task<responseEntitiesModel> StreamingFromClient(
         IAsyncStreamReader<entityCreationRequest> requestStream,
