@@ -1,12 +1,9 @@
 ﻿using Bogus;
 using Grpc.Core;
 using Mapster;
-using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Models;
 using Sample.GRPC.Server.API.Persistence;
 using SampleComunicationServiceProto;
-using System.Text.Json;
-using System.Threading;
 
 namespace Sample.GRPC.Server.API.SampleComunicationService;
 
