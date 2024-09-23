@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Sample.GRPC.Server.API.Models;
 using Sample.GRPC.Server.API.Persistence;
 using SampleServiceProto;
 
-namespace Sample.GRPC.Server.API.Protos;
+namespace Sample.GRPC.Server.API.SampleCrudService;
 
 /// <summary>
 /// Sample CRUD Service with GRPC
 /// </summary>
 /// <param name="logger"></param>
 /// <param name="cache"></param>
-public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext dbContext)
-    : SampleServiceApi.SampleServiceApiBase
+public class GrpcCrudSampleService(ILogger<GrpcCrudSampleService> logger, DummyContext dbContext)
+    : SampleCrudServiceApi.SampleCrudServiceApiBase
 {
     public override async Task<responseEntitiesModel> Gets(Empty request, ServerCallContext context)
     {
@@ -53,7 +52,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
             var response = new responseEntityModel()
             {
                 Success = true,
-                Item = obj.Adapt<entityModel>()
+                Item = obj.Adapt<entityModel>(),
             };
 
             return response;
@@ -85,7 +84,7 @@ public class GrpcSampleService(ILogger<GrpcSampleService> logger, DummyContext d
                 Description = request.Item.Description,
                 Name = request.Item.Name,
                 ReferenceDate = request.Item.ReferenceDate.ToDateTime(),
-                LastTimeModified = DateTime.UtcNow
+                LastTimeModified = DateTime.UtcNow,
             };
 
             await dbContext.SampleEntities.AddAsync(entity);

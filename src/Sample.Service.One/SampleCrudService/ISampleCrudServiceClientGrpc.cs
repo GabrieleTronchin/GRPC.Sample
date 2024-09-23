@@ -1,8 +1,8 @@
 ﻿using Sample.GRPC.Client.API.Models;
 
-namespace Sample.GRPC.Client.API.GRPCClient
+namespace Sample.GRPC.Client.API.SampleCrudService
 {
-    public interface IServiceClientGrpc
+    public interface ISampleCrudServiceClientGrpc
     {
         Task<Guid> Create(SampleEntityPost request);
         Task Delete(string id);

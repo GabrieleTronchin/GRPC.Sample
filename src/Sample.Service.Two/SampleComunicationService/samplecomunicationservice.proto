@@ -1,0 +1,64 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "SampleComunicationServiceProto";
+
+package samplecomunicationservice;
+
+
+
+service SampleComunicationServiceApi {
+  rpc UnaryCall (entityCreationRequest) returns (operationCompleteModel);
+  rpc StreamingFromServer (entitiesRequest) returns (stream entityModel);
+  rpc StreamingFromClient (stream entityCreationRequest) returns (responseEntitiesModel);
+  rpc StreamingBothWays (stream entitiesRequest) returns (stream entityModel);
+}
+
+
+message entityModel {
+  string id = 1;
+  string name= 2;
+  string description= 3;
+  google.protobuf.Timestamp referenceDate= 4;
+  google.protobuf.Timestamp modifiedDate= 5;
+}
+
+
+message entitiesRequest {
+   google.protobuf.Timestamp referenceDate = 2;
+}
+
+message entityCreationRequest {
+  string name= 1;
+  string description= 2;
+  google.protobuf.Timestamp referenceDate= 3;
+}
+
+// Exception model
+message apiException {
+  string Message = 1;
+  int32 StatusCode = 2;
+}
+
+// Response model
+message responseModel {
+  bool success = 1;
+  google.protobuf.Any data  = 2;
+  repeated apiException exceptions = 3;
+}
+
+message operationCompleteModel {
+  bool success = 1;
+  string id = 2;
+  google.protobuf.Any data  = 3;
+  repeated apiException exceptions = 4;
+}
+
+// returns multiple entities
+message responseEntitiesModel {
+  bool success = 1;
+  repeated entityModel items = 2;
+  google.protobuf.Any data  = 3;
+  repeated apiException exceptions = 4;
+}
